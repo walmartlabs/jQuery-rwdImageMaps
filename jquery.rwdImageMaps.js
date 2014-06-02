@@ -13,11 +13,11 @@
 		var $img = this,
 		    //options {debounce:true/false}, default false		
 	        defaults = {
-	            debounce: false,
-                timeout: 300
+               debounce: false,
+               timeout: 300
 	        },
-            // If options is an object, overwrite defaults with options.
-            opts = $.extend(defaults, typeof options === "object" ? options : {});
+	        // If options is an object, overwrite defaults with options.
+	        opts = $.extend(defaults, typeof options === "object" ? options : {});
 
 		var rwdImageMap = function() {
 			$img.each(function() {
