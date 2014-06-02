@@ -28,7 +28,8 @@
 				timeout: 300 
 			},
 			// If options is an object, overwrite defaults with options.
-			opts = $.extend(defaults, typeof options === 'object' ? options : {});
+			opts = $.extend(defaults, typeof options === 'object' ? options : {}),
+			action;
 
 		// If options is a string, use it as the action.
 		if (typeof options === 'string') {
@@ -94,7 +95,7 @@
 		};
 
 		if (action === 'off') {
-			$(window).off('resize.rwdImageMaps');
+			$img.off('resize.rwdImageMaps');
 		}else if (opts.debounce) {
 			$(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
 		} else {
