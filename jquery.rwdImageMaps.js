@@ -94,7 +94,7 @@
 		};
 
 		if (action === 'off') {
-			$img.off('resize.rwdImageMaps');
+			$(window).off('resize.rwdImageMaps');
 		}else if (opts.debounce) {
 			$(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
 		} else {
