@@ -11,8 +11,8 @@
 ;(function($) {
 	$.fn.rwdImageMaps = function(options) {
 		var $img = this,
-			//options {debounce:true/false}, default false		
-			defaults = {
+		    //options {debounce:true/false}, default false		
+	        defaults = {
 	            debounce: false,
                 timeout: 300
 	        },
