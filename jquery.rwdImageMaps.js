@@ -9,9 +9,16 @@
 * Licensed under the MIT license
 */
 ;(function($) {
-	$.fn.rwdImageMaps = function() {
-		var $img = this;
-		
+	$.fn.rwdImageMaps = function(options) {
+		var $img = this,
+			//options {debounce:true/false}, default false
+			defaults = {
+				debounce: false,
+				timeout: 300
+			},
+			// If options is an object, overwrite defaults with options.
+			opts = $.extend(defaults, typeof options === "object" ? options : {});
+
 		var rwdImageMap = function() {
 			$img.each(function() {
 				if (typeof($(this).attr('usemap')) == 'undefined')
@@ -60,7 +67,21 @@
 				}).attr('src', $that.attr('src'));
 			});
 		};
-		$(window).resize(rwdImageMap).trigger('resize');
+		var debounce = function (fun, mil) {
+			var timer;
+			return function () {
+				clearTimeout(timer);
+					timer = setTimeout(function () {
+					fun();
+				}, mil);
+			};
+		};
+		// Check if debounce is enable or not
+		if (opts.debounce) {
+			$(window).resize(debounce(rwdImageMap, opts.timeout)).trigger('resize');
+		} else {
+			$(window).resize(rwdImageMap).trigger('resize');
+		}
 		
 		return this;
 	};
