@@ -7,17 +7,28 @@
 * https://github.com/stowball/jQuery-rwdImageMaps
 * http://mattstow.com
 * Licensed under the MIT license
+* Usage: 
+*	Without debounce
+*	$('img[usemap]').rwdImageMaps("off");
+*
+*	With debounce 300ms
+*	$('img[usemap]').rwdImageMaps({
+*		debounce: 300
+*	});
 */
 ;(function($) {
 	$.fn.rwdImageMaps = function(options) {
 		var $img = this,
-			//options {debounce:true/false}, default false
 			defaults = {
-				debounce: false,
-				timeout: 300
+				debounce: 300
 			},
 			// If options is an object, overwrite defaults with options.
 			opts = $.extend(defaults, typeof options === "object" ? options : {});
+
+		// If options is a string, use it as the action.
+		if (typeof options === "string") {
+			action = options;
+		}
 
 		var rwdImageMap = function() {
 			$img.each(function() {
@@ -76,11 +87,10 @@
 				}, mil);
 			};
 		};
-		// Check if debounce is enable or not
-		if (opts.debounce) {
-			$(window).resize(debounce(rwdImageMap, opts.timeout)).trigger('resize');
-		} else {
+		if (action === "off") {
 			$(window).resize(rwdImageMap).trigger('resize');
+		} else {
+			$(window).resize(debounce(rwdImageMap, opts.debounce)).trigger('resize');
 		}
 		
 		return this;
