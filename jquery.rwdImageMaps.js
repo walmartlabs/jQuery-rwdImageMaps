@@ -9,26 +9,23 @@
 * Licensed under the MIT license
 * Usage: 
 *	Without debounce
-*	$('img[usemap]').rwdImageMaps("off");
+*	$('img[usemap]').rwdImageMaps();
 *
-*	With debounce 300ms
+*	With debounce on at 300ms
 *	$('img[usemap]').rwdImageMaps({
-*		debounce: 300
+*		debounce: true,
+*		timeout: 300
 *	});
 */
 ;(function($) {
 	$.fn.rwdImageMaps = function(options) {
 		var $img = this,
 			defaults = {
-				debounce: 300
+				debounce: false,
+				timeout: 300 
 			},
 			// If options is an object, overwrite defaults with options.
 			opts = $.extend(defaults, typeof options === "object" ? options : {});
-
-		// If options is a string, use it as the action.
-		if (typeof options === "string") {
-			action = options;
-		}
 
 		var rwdImageMap = function() {
 			$img.each(function() {
@@ -87,10 +84,10 @@
 				}, mil);
 			};
 		};
-		if (action === "off") {
-			$(window).resize(rwdImageMap).trigger('resize');
+		if (opts.debounce) {
+			$(window).resize(debounce(rwdImageMap, opts.timeout)).trigger('resize');
 		} else {
-			$(window).resize(debounce(rwdImageMap, opts.debounce)).trigger('resize');
+			$(window).resize(rwdImageMap).trigger('resize');
 		}
 		
 		return this;
