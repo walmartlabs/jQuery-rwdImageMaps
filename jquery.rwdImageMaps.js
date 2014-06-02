@@ -10,11 +10,14 @@
 * Usage: 
 *	Without debounce
 *	$('img[usemap]').rwdImageMaps();
+*   
+*	Disable.
+*   $('img[usemap]').rwdImageMaps('off');
 *
-*	With debounce on at 300ms
+*	With debounce on at 500ms
 *	$('img[usemap]').rwdImageMaps({
 *		debounce: true,
-*		timeout: 300
+*		timeout: 500
 *	});
 */
 ;(function($) {
@@ -25,7 +28,12 @@
 				timeout: 300 
 			},
 			// If options is an object, overwrite defaults with options.
-			opts = $.extend(defaults, typeof options === "object" ? options : {});
+			opts = $.extend(defaults, typeof options === 'object' ? options : {});
+
+		// If options is a string, use it as the action.
+		if (typeof options === 'string') {
+			action = options;
+		}
 
 		var rwdImageMap = function() {
 			$img.each(function() {
@@ -84,10 +92,13 @@
 				}, mil);
 			};
 		};
-		if (opts.debounce) {
-			$(window).resize(debounce(rwdImageMap, opts.timeout)).trigger('resize');
+
+		if (action === 'off') {
+			$img.off('resize.rwdImageMaps');
+		}else if (opts.debounce) {
+			$(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
 		} else {
-			$(window).resize(rwdImageMap).trigger('resize');
+			$(window).on('resize.rwdImageMaps', rwdImageMap);
 		}
 		
 		return this;
