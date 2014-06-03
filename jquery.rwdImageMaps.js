@@ -7,11 +7,35 @@
 * https://github.com/stowball/jQuery-rwdImageMaps
 * http://mattstow.com
 * Licensed under the MIT license
+* Usage: 
+*	Without debounce
+*	$('img[usemap]').rwdImageMaps();
+*   
+*	Disable.
+*   $('img[usemap]').rwdImageMaps('off');
+*
+*	With debounce on at 500ms
+*	$('img[usemap]').rwdImageMaps({
+*		debounce: true,
+*		timeout: 500
+*	});
 */
 ;(function($) {
-	$.fn.rwdImageMaps = function() {
-		var $img = this;
-		
+	$.fn.rwdImageMaps = function(options) {
+		var $img = this,
+			defaults = {
+				debounce: false,
+				timeout: 300 
+			},
+			// If options is an object, overwrite defaults with options.
+			opts = $.extend(defaults, typeof options === 'object' ? options : {}),
+			action;
+
+		// If options is a string, use it as the action.
+		if (typeof options === 'string') {
+			action = options;
+		}
+
 		var rwdImageMap = function() {
 			$img.each(function() {
 				if (typeof($(this).attr('usemap')) == 'undefined')
@@ -60,7 +84,23 @@
 				}).attr('src', $that.attr('src'));
 			});
 		};
-		$(window).resize(rwdImageMap).trigger('resize');
+		var debounce = function (fun, mil) {
+			var timer;
+			return function () {
+				clearTimeout(timer);
+					timer = setTimeout(function () {
+					fun();
+				}, mil);
+			};
+		};
+
+		if (action === 'off') {
+			$img.off('resize.rwdImageMaps');
+		} else if (opts.debounce) {
+			$(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
+		} else {
+			$(window).on('resize.rwdImageMaps', rwdImageMap);
+		}
 		
 		return this;
 	};
