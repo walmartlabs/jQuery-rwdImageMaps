@@ -97,13 +97,13 @@
 		if (action === 'off') {
 			$img.off('resize.rwdImageMaps');
 		} else {
-      rwdImageMap();
-      if (opts.debounce) {
-        $(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
-      } else {
-        $(window).on('resize.rwdImageMaps', rwdImageMap);
-      }
-    }
+                        rwdImageMap();
+                        if (opts.debounce) {
+                                $(window).on('resize.rwdImageMaps', debounce(rwdImageMap, opts.timeout));
+                        } else {
+                                $(window).on('resize.rwdImageMaps', rwdImageMap);
+                        }
+                }
 		
 		return this;
 	};
