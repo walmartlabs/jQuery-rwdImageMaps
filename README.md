@@ -1,3 +1,11 @@
+***
+# NOTICE:
+
+## This repository has been archived and is not supported.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+***
+
 # jQuery RWD Image Maps
 
 ### Allows image maps to be used in a responsive design by recalculating the area coordinates to match the actual image size on load and window.resize
